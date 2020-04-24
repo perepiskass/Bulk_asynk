@@ -20,8 +20,8 @@ int main(int argc, char *argv[])
 
     async::receive(h, "1", 1);
     async::receive(h2, "A\n", 2);
-    async::receive(h, "\n2\n3\n4\n5\nV\n{\na\n", 15);
-    async::receive(h, "b\nc\nd\n}\n89", 10);
+    async::receive(h, "\n2\n3\n4\n5\nDOTNWORK-1h\n{\na\n", 25);
+    async::receive(h, "b\nc\nd\n}\nDOTNWORK-2h", 19);
     async::receive(h3, "\nC\nC\nC\nC\nC\n{\nX\n", 15);
 
     async::disconnect(h);
@@ -31,7 +31,8 @@ int main(int argc, char *argv[])
     async::receive(h3, "\n1\n2\n3\n4\n5\nZ\n}\n", 15);
 
     async::disconnect(h3);
-
+    std::cout << std::endl;
+    Logger::getInstance().print();
   }
   catch(const std::exception& e)
   {

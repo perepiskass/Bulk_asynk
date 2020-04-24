@@ -1,11 +1,11 @@
 #include "data.h"
-#include "pcout.h"
-static bool cmd_run;
 
 
 //-----Data input methods----------------------------------------------------------------------
     DataIn::DataIn(int count):count(count),countTry(count)
-    {}
+    {
+        works = true;
+    }
     DataIn::~DataIn()
     {
         // this->notify();
@@ -20,8 +20,8 @@ static bool cmd_run;
             delete i;
         }
         std::cout << "DataIn - destructor-3" << std::endl;
-
     }
+
     void DataIn::subscribe(Observer *obs)
     {
         subs.push_back(obs);
@@ -29,12 +29,17 @@ static bool cmd_run;
 
     void DataIn::checkDilimiter(std::string& str)
     {
+
         if (str == "{")
         {
             if(checkD.first) ++checkD.second;
             else
             {
-                bulk.first.clear();
+                if(bulk.first.size())
+                {
+                    notify();
+                    bulk.first.clear();
+                }
                 checkD.first = true;
                 ++checkD.second;
             }
@@ -65,6 +70,7 @@ static bool cmd_run;
             else if (!checkD.second)
             {
                 notify();
+                clearData();
             }
         }
         else
@@ -82,6 +88,7 @@ static bool cmd_run;
             if(!countTry)
             {
                 notify();
+                clearData();
             }
         }
         
@@ -91,130 +98,102 @@ static bool cmd_run;
     {
         Logger::getInstance().set_bulkCount();
 
-        setQueue();
-
-        cmd_run = true;
-
+        setQueues();
         cv.notify_all();
-
-        clearData();
     }
 
     void DataIn::clearData()
     {   
-        while (cmd_run)
-        {
-            continue;
-        }
-
         bulk.first.clear();
         checkD.first = false;
         checkD.second = 0;
         countTry = count;
     }
 
-
-    Bulk DataIn::getBulk()
+    void DataIn::setQueues()
     {
-        return bulk;
-    }
-
-    void DataIn::setQueue()
-    {
-        std::lock_guard<std::mutex> lg(mtx_file);
-        bulkQ.push(bulk);
+        std::scoped_lock lck{mtx_cmd, mtx_file};
+        for(auto& i : subs)
+        {
+            i->setBulk(bulk);
+        }
     }
 
 
 //-----Data to console methods-------------------------------------------------------------------
-    DataToConsole::DataToConsole(DataIn* data):_data(data)
+    DataToConsole::DataToConsole(std::shared_ptr<DataIn> data):_data(data)
     {
         data->subscribe(this);
     }
+
     DataToConsole::~DataToConsole()
     {
         std::cout << "DataToConsole dest" << std::endl;
     }
 
+    void DataToConsole::setBulk(const Bulk& bulk)
+    {
+        bulkQ.push(bulk);
+    }
+
     void DataToConsole::update(int id)
     {
-         while(true)
+         while(_data->works || !bulkQ.empty())
         {
             std::unique_lock<std::mutex> consolLock(_data->mtx_cmd);
-            while(!cmd_run) _data->cv.wait(consolLock);
-
-                auto bulk = _data->getBulk();
-                // cmd_run = false;
-                // consolLock.unlock();
-
-                if(bulk.first.size())
+            _data->cv.wait(consolLock,[&](){
+            if(!bulkQ.empty() || !_data->works) return true;
+            else return false;
+            });
+            while(!bulkQ.empty())
+            {
+                if(bulkQ.front().first.size())
                 { 
                     Logger::getInstance().set_bulkCount(id);
-                    std::cout << "bulk " << id << ": ";
-                    for(auto str = bulk.first.begin(); str!=bulk.first.end(); ++str)
-                    {
-                        Logger::getInstance().set_commandCount(id);
-                        if(str==bulk.first.begin()) std::cout << *str;
-                        else std::cout << ", " << *str;
-                    }
-                    std::cout << std::endl;
+                    Writer::Console(bulkQ.front().first,id);
                 }
-                cmd_run = false;
+                bulkQ.pop();
+            }
+                
         }
     }
 
 
 
 //-----Data to file methods-----------------------------------------------------------------------
-    DataToFile::DataToFile(DataIn* data):_data(data)
+    DataToFile::DataToFile(std::shared_ptr<DataIn> data):_data(data)
     {
         data->subscribe(this);
     }
+
     DataToFile::~DataToFile()
     {
         std::cout << "DataToFile dest" << std::endl;
     }
 
+    void DataToFile::setBulk(const Bulk& bulk)
+    {
+        bulkQ.push(bulk);
+    }
 
     void DataToFile::update(int id)
     {
-        while (true)
+        while (_data->works || !bulkQ.empty())
         {
-                std::unique_lock<std::mutex> fileLock(_data->mtx_file);
-                _data->cv.wait(fileLock,[&](){return !_data->bulkQ.empty();});
-                    while (!_data->bulkQ.empty())
-                    {
-                                
-                        auto start(std::chrono::steady_clock::now());
-        
-                        auto bulk = _data->bulkQ.front();
-                        _data->bulkQ.pop();
-                        // fileLock.unlock();  
-                    if(bulk.first.size())
+            std::unique_lock<std::mutex> fileLock(_data->mtx_file);
+            _data->cv.wait(fileLock,[&](){
+            if(!bulkQ.empty() || !_data->works) return true;
+            else return false;
+            });
+                while (!bulkQ.empty())
+                {
+                    auto start(std::chrono::steady_clock::now());
+                    if(bulkQ.front().first.size())
                     {
                         Logger::getInstance().set_bulkCount(id);
-                        std::ofstream out;
-                        auto timeUNIX = bulk.second.count();
-                        auto end(std::chrono::steady_clock::now());
-                            // using seconds = std::chrono::duration<double>;
-                            // using nanoseconds = std::chrono::duration<double, std::ratio_multiply<seconds::period,std::nano>>;
-                        using nanoseconds = std::chrono::duration<double,std::ratio<1,1'000'000'000>>;
-                        auto diff = nanoseconds(end - start).count();
-                        std::string path = "bulk"+ std::to_string(timeUNIX) + '.' + std::to_string(int(diff)) + ".log";
-                        out.open(path);
-                        if (out.is_open(),std::ios::app)
-                        {
-                            out << "bulk: "    << id << ' ';
-                            for(auto str = bulk.first.begin(); str!=bulk.first.end(); ++str)
-                            {
-                                Logger::getInstance().set_commandCount(id);
-
-                                if(str==bulk.first.begin()) out << *str;
-                                else out << ", " << *str;
-                            }
-                        }
-                        out.close();
+                        Writer::File(bulkQ.front(),id,start);
                     }
-                    }
+                    bulkQ.pop();
+                }
         }
     }

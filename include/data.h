@@ -2,16 +2,14 @@
 #include <iostream>
 #include <vector>
 #include <string>
-#include <ctime>
-#include <chrono>
 #include <fstream>
 #include <csignal>
 #include <algorithm>
 #include <queue>
 #include <typeinfo>
-#include "logger.h"
 #include <cstring>
 #include <sstream>
+#include <atomic>
 
 #include <thread>
 #include <mutex>
@@ -20,12 +18,13 @@
 #include "pcout.h"
 
 
-using Time = std::chrono::seconds;
-using Bulk = std::pair<std::vector<std::string>,Time>;
+// using Time = std::chrono::seconds;
+// using Bulk = std::pair<std::vector<std::string>,Time>;
 
 
 class Observer {
 public:
+    virtual void setBulk(const Bulk&) = 0;
     virtual void update(int id) = 0;
     virtual ~Observer() = default;
 };
@@ -42,18 +41,18 @@ public:
     void subscribe(Observer *obs);
     void setData(std::string&& str);
     void notify();
-    Bulk getBulk();
 
     std::vector<std::thread*> vec_thread;
     std::queue<Bulk> bulkQ;
     std::condition_variable cv;
     std::mutex mtx_cmd;
     std::mutex mtx_file;
+    std::atomic<bool> works;
 
 private:
     void clearData();
     void checkDilimiter(std::string& str);
-    void setQueue();
+    void setQueues();
 
     Subscrabers subs;
     std::pair<bool,uint8_t> checkD; ///< переменная для проверки использования знаков динамического разделения блоков "{" и "}" и хранения состояния о их кол-ве
@@ -65,10 +64,11 @@ private:
 class DataToConsole:public Observer
 {
     private:
-    // std::shared_ptr<DataIn> _data;
-    DataIn* _data;
+    std::shared_ptr<DataIn> _data;
+    std::queue<Bulk> bulkQ;
     public:
-        DataToConsole(DataIn* data);
+        void setBulk(const Bulk& bulk) override;
+        DataToConsole(std::shared_ptr<DataIn> data);
         ~DataToConsole()override;
         void update(int id);
 };
@@ -76,10 +76,12 @@ class DataToConsole:public Observer
 class DataToFile:public Observer
 {
     private:
-    // std::shared_ptr<DataIn> _data;
-    DataIn* _data;
+    std::shared_ptr<DataIn> _data;
+    std::queue<Bulk> bulkQ;
+
     public:
-        DataToFile(DataIn* data);
+        void setBulk(const Bulk& bulk) override;
+        DataToFile(std::shared_ptr<DataIn> data);
         ~DataToFile()override;
         void update(int id);
 

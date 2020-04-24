@@ -8,7 +8,7 @@ namespace async
 handle_t connect(std::size_t bulk) 
 {
     static int i = 1;
-    auto bulkPtr = new DataIn(bulk);
+    auto bulkPtr = std::shared_ptr<DataIn>(new DataIn(bulk));
     auto cmdPtr = new DataToConsole(bulkPtr);
     auto filePtr = new DataToFile(bulkPtr);
 
@@ -20,12 +20,12 @@ handle_t connect(std::size_t bulk)
     // Logger::getInstance().init(count_thread);
 
 
-    for(auto& i : bulkPtr->vec_thread)
-    {
-        i->detach();
-    }
+    // for(auto& i : bulkPtr->vec_thread)
+    // {
+    //     i->detach();
+    // }
 
-    return reinterpret_cast<void*>(bulkPtr);
+    return reinterpret_cast<void*>(bulkPtr.get());
 }
 
 void receive(handle_t handle,const char *data,std::size_t size) 
@@ -46,7 +46,13 @@ void receive(handle_t handle,const char *data,std::size_t size)
 void disconnect(handle_t handle) 
 {
     auto _handle = reinterpret_cast<DataIn*>(handle);
+    _handle->works = false;
     _handle->notify();
+    for(auto& i : _handle->vec_thread)
+    {
+        i->join();
+    }
+    // delete _handle;
 }
 
 }
