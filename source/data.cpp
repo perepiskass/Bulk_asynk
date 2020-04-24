@@ -6,20 +6,20 @@
     {
         works = true;
     }
+
     DataIn::~DataIn()
     {
-        // this->notify();
-        std::cout << "DataIn - destructor-1" << std::endl;
-        for(auto&i : subs)
+        // Writer{} << "DataIn - destructor-start" << std::endl;
+        for(auto&i : vec_thread)
         {
             delete i;
         }
-        std::cout << "DataIn - destructor-2" << std::endl;
-        for(auto& i : vec_thread)
+        // Writer{} << "DataIn - destructor-middle" << std::endl;
+        for(auto& i : subs)
         {
             delete i;
         }
-        std::cout << "DataIn - destructor-3" << std::endl;
+        // Writer{} << "DataIn - destructor-end" << std::endl;
     }
 
     void DataIn::subscribe(Observer *obs)
@@ -96,10 +96,12 @@
 
     void DataIn::notify() 
     {
-        Logger::getInstance().set_bulkCount();
-
-        setQueues();
-        cv.notify_all();
+        if(bulk.first.size())
+        {
+            Logger::getInstance().set_bulkCount();
+            setQueues();
+            cv.notify_all();
+        }
     }
 
     void DataIn::clearData()
@@ -112,27 +114,26 @@
 
     void DataIn::setQueues()
     {
-        std::scoped_lock lck{mtx_cmd, mtx_file};
         for(auto& i : subs)
         {
             i->setBulk(bulk);
         }
     }
 
-
 //-----Data to console methods-------------------------------------------------------------------
-    DataToConsole::DataToConsole(std::shared_ptr<DataIn> data):_data(data)
+    DataToConsole::DataToConsole(DataIn* data):_data(data)
     {
         data->subscribe(this);
     }
 
     DataToConsole::~DataToConsole()
     {
-        std::cout << "DataToConsole dest" << std::endl;
+        // Writer{} << "DataToConsole dest" << std::endl;
     }
 
     void DataToConsole::setBulk(const Bulk& bulk)
     {
+        std::lock_guard<std::mutex> l{_data->mtx_cmd};
         bulkQ.push(bulk);
     }
 
@@ -147,32 +148,28 @@
             });
             while(!bulkQ.empty())
             {
-                if(bulkQ.front().first.size())
-                { 
-                    Logger::getInstance().set_bulkCount(id);
-                    Writer::Console(bulkQ.front().first,id);
-                }
+                Logger::getInstance().set_bulkCount(id);
+                Writer::console(bulkQ.front().first,id);
                 bulkQ.pop();
             }
                 
         }
     }
 
-
-
 //-----Data to file methods-----------------------------------------------------------------------
-    DataToFile::DataToFile(std::shared_ptr<DataIn> data):_data(data)
+    DataToFile::DataToFile(DataIn* data):_data(data)
     {
         data->subscribe(this);
     }
 
     DataToFile::~DataToFile()
     {
-        std::cout << "DataToFile dest" << std::endl;
+        // Writer{} << "DataToFile dest" << std::endl;
     }
 
     void DataToFile::setBulk(const Bulk& bulk)
     {
+        std::lock_guard<std::mutex> l{_data->mtx_file};
         bulkQ.push(bulk);
     }
 
@@ -188,11 +185,8 @@
                 while (!bulkQ.empty())
                 {
                     auto start(std::chrono::steady_clock::now());
-                    if(bulkQ.front().first.size())
-                    {
-                        Logger::getInstance().set_bulkCount(id);
-                        Writer::File(bulkQ.front(),id,start);
-                    }
+                    Logger::getInstance().set_bulkCount(id);
+                    Writer::file(bulkQ.front(),id,start);
                     bulkQ.pop();
                 }
         }

@@ -17,11 +17,6 @@
 
 #include "pcout.h"
 
-
-// using Time = std::chrono::seconds;
-// using Bulk = std::pair<std::vector<std::string>,Time>;
-
-
 class Observer {
 public:
     virtual void setBulk(const Bulk&) = 0;
@@ -64,11 +59,11 @@ private:
 class DataToConsole:public Observer
 {
     private:
-    std::shared_ptr<DataIn> _data;
+    DataIn* _data;
     std::queue<Bulk> bulkQ;
     public:
         void setBulk(const Bulk& bulk) override;
-        DataToConsole(std::shared_ptr<DataIn> data);
+        DataToConsole(DataIn* data);
         ~DataToConsole()override;
         void update(int id);
 };
@@ -76,12 +71,12 @@ class DataToConsole:public Observer
 class DataToFile:public Observer
 {
     private:
-    std::shared_ptr<DataIn> _data;
+    DataIn* _data;
     std::queue<Bulk> bulkQ;
 
     public:
         void setBulk(const Bulk& bulk) override;
-        DataToFile(std::shared_ptr<DataIn> data);
+        DataToFile(DataIn* data);
         ~DataToFile()override;
         void update(int id);
 

@@ -20,15 +20,15 @@ int main(int argc, char *argv[])
 
     async::receive(h, "1", 1);
     async::receive(h2, "A\n", 2);
-    async::receive(h, "\n2\n3\n4\n5\nDOTNWORK-1h\n{\na\n", 25);
-    async::receive(h, "b\nc\nd\n}\nDOTNWORK-2h", 19);
-    async::receive(h3, "\nC\nC\nC\nC\nC\n{\nX\n", 15);
+    async::receive(h, "\n2\n3\n4\n5\nDOTNWORK-1h\n{\n6\n", 25);
+    async::receive(h, "7\n8\n9\n}\nDOTNWORK-2h", 19);
+    async::receive(h3, "\nM\nA\nZ\nD\nA\n{\nC\n", 15);
 
     async::disconnect(h);
-    async::receive(h2, "S\n", 2);
+    async::receive(h2, "Z\n", 2);
     async::disconnect(h2);
 
-    async::receive(h3, "\n1\n2\n3\n4\n5\nZ\n}\n", 15);
+    async::receive(h3, "\nI\nT\nR\nO\nE\nN\n}\n", 15);
 
     async::disconnect(h3);
     std::cout << std::endl;

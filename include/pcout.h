@@ -1,6 +1,7 @@
 #pragma once
 #include <mutex>
 #include <iostream>
+#include <sstream>
 #include <fstream>
 #include <sstream>
 #include <vector>
@@ -15,12 +16,12 @@ using Time_point = std::chrono::_V2::steady_clock::time_point;
 using Bulk = std::pair<std::vector<std::string>,Time>;
 
 
-class Writer
+class Writer:public std::stringstream
 {
     private:
         static inline std::mutex cout_mutex;
     public:
-    static void Console(const std::vector<std::string>& bulks, int id)
+    static void console(const std::vector<std::string>& bulks, int id)
     {
         std::lock_guard<std::mutex> lcout {cout_mutex};
         std::cout << "bulk " << id << ": ";
@@ -33,7 +34,7 @@ class Writer
         std::cout << std::endl;
     }
 
-    static void File(const Bulk& bulks, int id, Time_point start)
+    static void file(const Bulk& bulks, int id, Time_point start)
     {
         std::ofstream out;
         auto timeUNIX = bulks.second.count();
@@ -48,11 +49,16 @@ class Writer
             for(auto str = bulks.first.begin(); str!=bulks.first.end(); ++str)
             {
                 Logger::getInstance().set_commandCount(id);
-
                 if(str==bulks.first.begin()) out << *str;
                 else out << ", " << *str;
             }
         }
         out.close();
+    }
+    ~Writer()
+    {
+        std::lock_guard<std::mutex> l {cout_mutex};
+        std::cout << rdbuf();
+        std::cout.flush();
     }
 };

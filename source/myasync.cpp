@@ -8,7 +8,7 @@ namespace async
 handle_t connect(std::size_t bulk) 
 {
     static int i = 1;
-    auto bulkPtr = std::shared_ptr<DataIn>(new DataIn(bulk));
+    auto bulkPtr = new DataIn(bulk);
     auto cmdPtr = new DataToConsole(bulkPtr);
     auto filePtr = new DataToFile(bulkPtr);
 
@@ -16,20 +16,12 @@ handle_t connect(std::size_t bulk)
     bulkPtr->vec_thread.emplace_back(new std::thread ([filePtr](){filePtr->update(i++);}));
     bulkPtr->vec_thread.emplace_back(new std::thread ([filePtr](){filePtr->update(i++);}));
 
-    // constexpr size_t count_thread = 4;    ///< общее колличество потоков в программе.
-    // Logger::getInstance().init(count_thread);
-
-
-    // for(auto& i : bulkPtr->vec_thread)
-    // {
-    //     i->detach();
-    // }
-
-    return reinterpret_cast<void*>(bulkPtr.get());
+    return reinterpret_cast<void*>(bulkPtr);
 }
 
 void receive(handle_t handle,const char *data,std::size_t size) 
 {
+    // Writer{} << "receive start" << std::endl;
     auto _handle = reinterpret_cast<DataIn*>(handle);
     const char* delim = "\n";
     
@@ -41,6 +33,8 @@ void receive(handle_t handle,const char *data,std::size_t size)
         _handle->setData(ptr);
         ptr = strtok(0,delim);
     }
+    // Writer{} << "receive end" << std::endl;
+
 }
 
 void disconnect(handle_t handle) 
