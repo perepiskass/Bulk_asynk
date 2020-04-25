@@ -45,27 +45,15 @@ class Logger
         {
             if (i == 0)
             {
-                // std::cout.cout_mutex.lock();
                 std::cout << "Main thread: "    << m[0][0]<< "- lines," 
                                         << m[0][1]<< "- commands,"
                                         << m[0][2]<< "- bulks" << std::endl;
-                // std::cout.cout_mutex.unlock();
             }
-            // else if (i == 1)
-            // {
-            //     // std::cout.cout_mutex.lock();
-            //     std::cout << "Console thread: "
-            //                             << m[i][1]<< "- commands,"
-            //                             << m[i][2]<< "- bulks" << std::endl;
-            //     // std::cout.cout_mutex.unlock();
-            // }
             else
             {
-                // std::cout.cout_mutex.lock();
                 std::cout << "Thread # " << i <<": "
                                         << m[i][1]<< "- commands,"
                                         << m[i][2]<< "- bulks" << std::endl;
-                // std::cout.cout_mutex.unlock();
             }
             
         }

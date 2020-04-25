@@ -29,11 +29,12 @@ configure_file(${CMAKE_SOURCE_DIR}/include/version.h.in ${CMAKE_SOURCE_DIR}/incl
 
 # СОЗДАЕМ ИСПОЛНЯЕМЫЕ ФАЙЛЫ И ДОБОВЛЯЕМ БИБЛИОТЕКИ В ПРОЕКТ-----------------
 # Создаем исполняемый фаил print_ip из main.cpp
-add_executable(${CMAKE_PROJECT_NAME} ${CMAKE_SOURCE_DIR}/source/main.cpp ${CMAKE_SOURCE_DIR}/source/data.cpp ${CMAKE_SOURCE_DIR}/source/myasync.cpp ${CMAKE_SOURCE_DIR}/source/arg.cpp)
+add_executable(${CMAKE_PROJECT_NAME} ${CMAKE_SOURCE_DIR}/source/main.cpp ${CMAKE_SOURCE_DIR}/source/arg.cpp)
 # Создаем библиотеку с именем versionlib из источника - файла с именем version_lib.cpp
 add_library(versionlib ${CMAKE_SOURCE_DIR}/source/version_lib.cpp)
 # Создаем исполняемый фаил google_test из test.cpp (для Boost test)
 # Создаем исполняемый фаил gtest из gtest.cpp
+add_library(asynklib ${CMAKE_SOURCE_DIR}/source/myasync.cpp ${CMAKE_SOURCE_DIR}/source/data.cpp)
 add_executable(gtest  ${CMAKE_SOURCE_DIR}/source/gtest.cpp  ${CMAKE_SOURCE_DIR}/source/arg.cpp)
 # --------------------------------------------------------------------------
 
@@ -42,7 +43,7 @@ add_executable(gtest  ${CMAKE_SOURCE_DIR}/source/gtest.cpp  ${CMAKE_SOURCE_DIR}/
 
 # УСТАНАВЛИВАЕМ СВОЙСТВА ДЛЯ КОМПИЛЯЦИИ ИСПОЛНЯЕМЫМ ФАЙЛАМ И БИБЛИОТЕКАМ----
 
-set_target_properties(${CMAKE_PROJECT_NAME} versionlib gtest PROPERTIES
+set_target_properties(${CMAKE_PROJECT_NAME} versionlib asynklib gtest PROPERTIES
 # Стандарт С++ версии 17
     CXX_STANDARD 17
     CXX_STANDARD_REQUIRED ON
@@ -54,6 +55,9 @@ target_include_directories(${CMAKE_PROJECT_NAME}
 target_include_directories(versionlib
     PRIVATE "${CMAKE_SOURCE_DIR}/include"
 )
+target_include_directories(asynklib
+    PRIVATE "${CMAKE_SOURCE_DIR}/include"
+)
 target_include_directories(gtest
     PRIVATE "${CMAKE_SOURCE_DIR}/include"
 )
@@ -61,6 +65,9 @@ target_include_directories(gtest
 
 target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE
     versionlib
+)
+target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE
+    asynklib
 )
 
 target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE

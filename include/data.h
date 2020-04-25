@@ -40,6 +40,7 @@ public:
     std::vector<std::thread*> vec_thread;
     std::queue<Bulk> bulkQ;
     std::condition_variable cv;
+    std::mutex mtx_input;
     std::mutex mtx_cmd;
     std::mutex mtx_file;
     std::atomic<bool> works;
