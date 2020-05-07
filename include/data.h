@@ -20,7 +20,7 @@
 class Observer {
 public:
     virtual void setBulk(const Bulk&) = 0;
-    virtual void update(int id) = 0;
+    virtual void update(size_t id) = 0;
     virtual ~Observer() = default;
 };
 
@@ -35,7 +35,9 @@ public:
     void setBulk(std::size_t bulk);
     void subscribe(Observer *obs);
     void setData(std::string&& str);
+    void write();
     void notify();
+    void threadStart();
 
     std::vector<std::thread*> vec_thread;
     std::queue<Bulk> bulkQ;
@@ -52,7 +54,7 @@ private:
 
     Subscrabers subs;
     std::pair<bool,uint8_t> checkD; ///< переменная для проверки использования знаков динамического разделения блоков "{" и "}" и хранения состояния о их кол-ве
-    Bulk bulk;
+    Bulk* bulk;
     std::size_t count;        ///< хранит информацию о размере блока, задаеться при запуске программы (инициализируеться в конструкторе)
     std::size_t countTry;           ///< оставшееся ко-во команд для ввода в блок для его формирования
 };
@@ -63,10 +65,11 @@ class DataToConsole:public Observer
     DataIn* _data;
     std::queue<Bulk> bulkQ;
     public:
+        // void stop();
         void setBulk(const Bulk& bulk) override;
         DataToConsole(DataIn* data);
         ~DataToConsole()override;
-        void update(int id);
+        void update(size_t id);
 };
 
 class DataToFile:public Observer
@@ -79,7 +82,7 @@ class DataToFile:public Observer
         void setBulk(const Bulk& bulk) override;
         DataToFile(DataIn* data);
         ~DataToFile()override;
-        void update(int id);
+        void update(size_t id);
 
 };
 

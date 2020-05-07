@@ -21,7 +21,7 @@ void setCommands(DataIn* _handle,char* copy,const char* delim)
 
 handle_t connect(std::size_t bulk) 
 {
-    static int i = 1;
+    static size_t i = 1;
     auto bulkPtr = new DataIn(bulk);
     auto cmdPtr = new DataToConsole(bulkPtr);
     auto filePtr = new DataToFile(bulkPtr);
@@ -54,20 +54,20 @@ void disconnect(handle_t handle)
     // Writer{} << "disconnect start " << std::endl;
     auto _handle = reinterpret_cast<DataIn*>(handle);
     _handle->works = false;
-    _handle->notify();
+    _handle->threadStart();
     // Writer{} << "disconnect middle " << std::endl;
     for(auto& i : _handle->vec_thread)
     {
     // Writer{} << "until join " << std::endl;
         // std::this_thread::sleep_for(std::chrono::milliseconds(100));
-        i->detach();
-        // i->join();
+        // i->detach();
+        i->join();
         // std::this_thread::sleep_for(std::chrono::milliseconds(100));
     // Writer{} << "after join " << std::endl;
 
     }
     // std::this_thread::sleep_for(std::chrono::milliseconds(500));
-    // delete _handle;
+    delete _handle;
 }
 
 }

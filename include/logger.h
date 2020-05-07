@@ -16,13 +16,7 @@ class Logger
         static Logger logger;
         return logger;
     }
-    void init(size_t count_thread)
-    {
-        for(size_t i = 0; i < count_thread; ++i)
-        {
-            m[i];
-        }
-    }
+
     void set_lineCount(int id = 0)
     {
         ++(m[id][0]);

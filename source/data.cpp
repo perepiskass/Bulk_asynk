@@ -4,6 +4,7 @@
 //-----Data input methods----------------------------------------------------------------------
     DataIn::DataIn(int count):count(count),countTry(count)
     {
+        bulk = nullptr;
         works = true;
     }
 
@@ -35,10 +36,10 @@
             if(checkD.first) ++checkD.second;
             else
             {
-                if(bulk.first.size())
+                if(bulk->first.size())
                 {
                     notify();
-                    bulk.first.clear();
+                    bulk->first.clear();
                 }
                 checkD.first = true;
                 ++checkD.second;
@@ -54,7 +55,7 @@
     void DataIn::setData(std::string&& str) 
     {
         // std::scoped_lock sl{mtx_cmd,mtx_file};
-
+        if(bulk == nullptr) bulk = new Bulk{};
         Logger::getInstance().set_lineCount(0);
 
         checkDilimiter(str);
@@ -62,43 +63,53 @@
         {
             if (str!="{" && str!="}")
             {
-                if(bulk.first.size() == 0) 
+                if(bulk->first.size() == 0) 
                 {
-                    bulk.second = std::chrono::seconds(std::time(NULL));
+                    bulk->second = std::chrono::seconds(std::time(NULL));
                 }
                 Logger::getInstance().set_commandCount();
-                bulk.first.emplace_back(str);
+                bulk->first.emplace_back(str);
             }
             else if (!checkD.second)
             {
-                notify();
-                clearData();
+                write();
             }
         }
         else
         {
             if (str!="{" && str!="}" && countTry)
             {
-                if(bulk.first.size() == 0)
+                if(bulk->first.size() == 0)
                 {
-                    bulk.second = std::chrono::seconds(std::time(NULL));
+                    bulk->second = std::chrono::seconds(std::time(NULL));
                 }
                 Logger::getInstance().set_commandCount();
-                bulk.first.emplace_back(str);
+                bulk->first.emplace_back(str);
                 --countTry;
             }
             if(!countTry)
             {
-                notify();
-                clearData();
+                write();
             }
         }
         
     }
 
+    void DataIn::threadStart()
+    {
+        if(bulk) notify();
+        else cv.notify_all();
+    }
+
+    void DataIn::write()
+    {
+        notify();
+        clearData();
+    }
+
     void DataIn::notify() 
     {
-        if(bulk.first.size())
+        if(bulk)
         {
             Logger::getInstance().set_bulkCount();
             setQueues();
@@ -108,7 +119,9 @@
 
     void DataIn::clearData()
     {   
-        bulk.first.clear();
+        // bulk->first.clear();
+        delete bulk;
+        bulk = nullptr;
         checkD.first = false;
         checkD.second = 0;
         countTry = count;
@@ -118,7 +131,7 @@
     {
         for(auto& i : subs)
         {
-            i->setBulk(bulk);
+            i->setBulk(*bulk);
         }
     }
 
@@ -139,7 +152,7 @@
         bulkQ.push(bulk);
     }
 
-    void DataToConsole::update(int id)
+    void DataToConsole::update(size_t id)
     {
         // Writer{}<< "THREAD until cicle " << id << std::endl;
          while(_data->works || !bulkQ.empty())
@@ -181,7 +194,7 @@
         bulkQ.push(bulk);
     }
 
-    void DataToFile::update(int id)
+    void DataToFile::update(size_t id)
     {
         while (_data->works || !bulkQ.empty())
         {
