@@ -21,6 +21,7 @@
             delete i;
         }
         Writer{} << "DataIn - destructor-end" << std::endl;
+        delete bulk;
     }
 
     void DataIn::subscribe(Observer *obs)
@@ -39,16 +40,21 @@
                 if(bulk->first.size())
                 {
                     notify();
-                    bulk->first.clear();
+                    // bulk->first.clear();
+                    delete bulk;
+                    bulk = nullptr;
+                    Writer{} << "checkDilimiter notify " << std::endl;
                 }
                 checkD.first = true;
                 ++checkD.second;
+
             }
             
         }
         else if (str == "}")
         {
             if (checkD.second) --checkD.second;
+            Writer{} << "checkDilimiter } " << std::endl;
         }
     }
 
@@ -95,12 +101,6 @@
         
     }
 
-    void DataIn::threadStart()
-    {
-        if(bulk) notify();
-        else cv.notify_all();
-    }
-
     void DataIn::write()
     {
         notify();
@@ -115,6 +115,7 @@
             setQueues();
             cv.notify_all();
         }
+        else cv.notify_all();
     }
 
     void DataIn::clearData()
@@ -149,6 +150,7 @@
     void DataToConsole::setBulk(const Bulk& bulk)
     {
         std::lock_guard<std::mutex> l{_data->mtx_cmd};
+        Writer{} << "setBulk " << bulk.first.front() << std::endl;
         bulkQ.push(bulk);
     }
 
@@ -167,7 +169,7 @@
 
             while(!bulkQ.empty())
             {
-        // Writer{}<< "THREAD into while " << id << std::endl;
+         Writer{}<< "THREAD into while " << bulkQ.front().first.front() << std::endl;
 
                 Logger::getInstance().set_bulkCount(id);
                 Writer::console(bulkQ.front().first,id);

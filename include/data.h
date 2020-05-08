@@ -26,7 +26,6 @@ public:
 
 using Subscrabers = std::vector<Observer*>;
 
-
 class DataIn
 {
 public:
@@ -37,7 +36,6 @@ public:
     void setData(std::string&& str);
     void write();
     void notify();
-    void threadStart();
 
     std::vector<std::thread*> vec_thread;
     std::queue<Bulk> bulkQ;
@@ -65,7 +63,6 @@ class DataToConsole:public Observer
     DataIn* _data;
     std::queue<Bulk> bulkQ;
     public:
-        // void stop();
         void setBulk(const Bulk& bulk) override;
         DataToConsole(DataIn* data);
         ~DataToConsole()override;

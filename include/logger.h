@@ -7,7 +7,8 @@
 class Logger
 {
     private:
-    std::map <const int,std::array<int,3>> m;
+    size_t count = 1;
+    std::map <const size_t,std::array<int,3>> m;
     Logger(){}
 
     public:
@@ -17,43 +18,39 @@ class Logger
         return logger;
     }
 
-    void set_lineCount(int id = 0)
+    void setCount(size_t c)
+    {
+        count = c;
+    }
+
+    void set_lineCount(size_t id = 0)
     {
         ++(m[id][0]);
     }
 
-    void set_commandCount(int id = 0)
+    void set_commandCount(size_t id = 0)
     {
         ++(m[id][1]);
     }   
 
-    void set_bulkCount(int id = 0)
+    void set_bulkCount(size_t id = 0)
     {
         ++(m[id][2]);
     } 
 
-
     void print()
     {
-        for (size_t i = 0; i < m.size();++i)
-        {
-            if (i == 0)
-            {
-                std::cout << "Main thread: "    << m[0][0]<< "- lines," 
-                                        << m[0][1]<< "- commands,"
-                                        << m[0][2]<< "- bulks" << std::endl;
-            }
-            else
-            {
-                std::cout << "Thread # " << i <<": "
-                                        << m[i][1]<< "- commands,"
-                                        << m[i][2]<< "- bulks" << std::endl;
-            }
-            
-        }
-     }
+        std::cout << "Main thread: "    << m[0][0]<< "- lines," 
+                        << m[0][1]<< "- commands,"
+                        << m[0][2]<< "- bulks" << std::endl;
 
-     ~Logger()
-     {
-     }
+        for (size_t i = 1; i < count;++i)
+        {
+            std::cout << "Thread # " << i <<": "
+                                    << m[i][1]<< "- commands,"
+                                    << m[i][2]<< "- bulks" << std::endl;
+        }
+    }
+
+     ~Logger(){}
 };

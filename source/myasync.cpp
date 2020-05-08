@@ -14,6 +14,7 @@ void setCommands(DataIn* _handle,char* copy,const char* delim)
     auto ptr = std::strtok(copy,delim);
     while (ptr)
     {
+        Writer{} << "setCommands " << ptr << std::endl;
         _handle->setData(ptr);
         ptr = strtok(0,delim);
     }
@@ -30,12 +31,14 @@ handle_t connect(std::size_t bulk)
     bulkPtr->vec_thread.emplace_back(new std::thread ([filePtr](){filePtr->update(i++);}));
     bulkPtr->vec_thread.emplace_back(new std::thread ([filePtr](){filePtr->update(i++);}));
 
+    Logger::getInstance().setCount(i);
+
     return reinterpret_cast<void*>(bulkPtr);
 }
 
 void receive(handle_t handle,const char *data,std::size_t size) 
 {
-    // Writer{} << "receive start " << size << std::endl;
+    Writer{} << "receive start " << size << std::endl;
     auto _handle = reinterpret_cast<DataIn*>(handle);
 
     const char* delim = "\n";
@@ -54,7 +57,7 @@ void disconnect(handle_t handle)
     // Writer{} << "disconnect start " << std::endl;
     auto _handle = reinterpret_cast<DataIn*>(handle);
     _handle->works = false;
-    _handle->threadStart();
+    _handle->notify();
     // Writer{} << "disconnect middle " << std::endl;
     for(auto& i : _handle->vec_thread)
     {
