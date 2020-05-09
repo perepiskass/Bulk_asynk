@@ -1,0 +1,20 @@
+libasync.so - библиотека для сбора команд и формирования их в группы по заданному колличеству с последующем выводом сформировавшейся группы в консоль и в файл
+Заголовочный файл имеет два пространства имен со следующей реализацией:
+    #pragma once
+    #include <cstddef>
+    namespace async 
+    {
+        using handle_t = void *;
+        handle_t connect(std::size_t bulk);
+        void receive(handle_t handle,const char *data,std::size_t size);
+        void disconnect(handle_t handle);
+    }
+    namespace logger
+    {
+        void printLog();
+    }
+
+функция connect - принимает размер блока для команд и возвращает указатель на обработчик
+функция receive - принимает указатель на обработчик и строку с командами, размер данной строки
+функция disconnect - принимает указатель на обработчик работу которого  надо завершить
+функция printLog - выводит номера потоков и кол-во выполненных задачь

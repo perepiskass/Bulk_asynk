@@ -3,7 +3,6 @@
 #include <iostream>
 #include <sstream>
 #include <fstream>
-#include <sstream>
 #include <vector>
 #include <string>
 #include <ctime>
@@ -15,7 +14,9 @@ using Time = std::chrono::seconds;
 using Time_point = std::chrono::_V2::steady_clock::time_point;
 using Bulk = std::pair<std::vector<std::string>,Time>;
 
-
+/**
+ * @brief Класс для вывода информации(в файл, в консоль) в параллельной среде.
+ */
 class Writer:public std::stringstream
 {
     private:

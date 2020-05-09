@@ -2,25 +2,20 @@
 
 
 //-----Data input methods----------------------------------------------------------------------
-    DataIn::DataIn(int count):count(count),countTry(count)
+    DataIn::DataIn(int count):works(true),bulk(nullptr),count(count),countTry(count)
     {
-        bulk = nullptr;
-        works = true;
     }
 
     DataIn::~DataIn()
     {
-        Writer{} << "DataIn - destructor-start" << std::endl;
         for(auto&i : vec_thread)
         {
             delete i;
         }
-        Writer{} << "DataIn - destructor-middle" << std::endl;
         for(auto& i : subs)
         {
             delete i;
         }
-        Writer{} << "DataIn - destructor-end" << std::endl;
         delete bulk;
     }
 
@@ -40,27 +35,19 @@
                 if(bulk->first.size())
                 {
                     notify();
-                    // bulk->first.clear();
-                    delete bulk;
-                    bulk = nullptr;
-                    Writer{} << "checkDilimiter notify " << std::endl;
                 }
                 checkD.first = true;
                 ++checkD.second;
-
             }
-            
         }
         else if (str == "}")
         {
             if (checkD.second) --checkD.second;
-            Writer{} << "checkDilimiter } " << std::endl;
         }
     }
 
     void DataIn::setData(std::string&& str) 
     {
-        // std::scoped_lock sl{mtx_cmd,mtx_file};
         if(bulk == nullptr) bulk = new Bulk{};
         Logger::getInstance().set_lineCount(0);
 
@@ -107,7 +94,7 @@
         clearData();
     }
 
-    void DataIn::notify() 
+    void DataIn::notify()
     {
         if(bulk)
         {
@@ -116,13 +103,13 @@
             cv.notify_all();
         }
         else cv.notify_all();
+
+        delete bulk;
+        bulk = nullptr;
     }
 
     void DataIn::clearData()
     {   
-        // bulk->first.clear();
-        delete bulk;
-        bulk = nullptr;
         checkD.first = false;
         checkD.second = 0;
         countTry = count;
@@ -144,33 +131,26 @@
 
     DataToConsole::~DataToConsole()
     {
-        Writer{} << "DataToConsole dest" << std::endl;
     }
 
     void DataToConsole::setBulk(const Bulk& bulk)
     {
         std::lock_guard<std::mutex> l{_data->mtx_cmd};
-        Writer{} << "setBulk " << bulk.first.front() << std::endl;
         bulkQ.push(bulk);
     }
 
     void DataToConsole::update(size_t id)
     {
-        // Writer{}<< "THREAD until cicle " << id << std::endl;
          while(_data->works || !bulkQ.empty())
         {
-        // Writer{}<< "THREAD after cicle " << id << std::endl;
             std::unique_lock<std::mutex> consolLock(_data->mtx_cmd);
             _data->cv.wait(consolLock,[&](){
             if(!bulkQ.empty() || !_data->works) return true;
             else return false;
             });
-        // Writer{}<< "THREAD into WAIT " << id << std::endl;
 
             while(!bulkQ.empty())
             {
-         Writer{}<< "THREAD into while " << bulkQ.front().first.front() << std::endl;
-
                 Logger::getInstance().set_bulkCount(id);
                 Writer::console(bulkQ.front().first,id);
                 bulkQ.pop();
@@ -187,7 +167,6 @@
 
     DataToFile::~DataToFile()
     {
-        Writer{} << "DataToFile dest" << std::endl;
     }
 
     void DataToFile::setBulk(const Bulk& bulk)

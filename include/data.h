@@ -3,20 +3,19 @@
 #include <vector>
 #include <string>
 #include <fstream>
-#include <csignal>
 #include <algorithm>
 #include <queue>
-#include <typeinfo>
-#include <cstring>
 #include <sstream>
 #include <atomic>
-
 #include <thread>
 #include <mutex>
 #include <condition_variable>
 
-#include "pcout.h"
+#include "parallel_out.h"
 
+/**
+ * @brief Интерфейс для реализации классов записывающих данные.
+ */
 class Observer {
 public:
     virtual void setBulk(const Bulk&) = 0;
@@ -26,6 +25,9 @@ public:
 
 using Subscrabers = std::vector<Observer*>;
 
+/**
+ * @brief Класс для сбора и формирования команд в группы(bulk).
+ */
 class DataIn
 {
 public:
@@ -35,10 +37,8 @@ public:
     void subscribe(Observer *obs);
     void setData(std::string&& str);
     void write();
-    void notify();
 
     std::vector<std::thread*> vec_thread;
-    std::queue<Bulk> bulkQ;
     std::condition_variable cv;
     std::mutex mtx_input;
     std::mutex mtx_cmd;
@@ -46,6 +46,7 @@ public:
     std::atomic<bool> works;
 
 private:
+    void notify();
     void clearData();
     void checkDilimiter(std::string& str);
     void setQueues();
@@ -57,11 +58,15 @@ private:
     std::size_t countTry;           ///< оставшееся ко-во команд для ввода в блок для его формирования
 };
 
+/**
+ * @brief Класс для вывода полученных данных в консоль.
+ */
 class DataToConsole:public Observer
 {
     private:
-    DataIn* _data;
-    std::queue<Bulk> bulkQ;
+        DataIn* _data;
+        std::queue<Bulk> bulkQ;
+
     public:
         void setBulk(const Bulk& bulk) override;
         DataToConsole(DataIn* data);
@@ -69,17 +74,19 @@ class DataToConsole:public Observer
         void update(size_t id);
 };
 
+/**
+ * @brief Класс для записи полученных данных в файл.
+ */
 class DataToFile:public Observer
 {
     private:
-    DataIn* _data;
-    std::queue<Bulk> bulkQ;
+        DataIn* _data;
+        std::queue<Bulk> bulkQ;
 
     public:
         void setBulk(const Bulk& bulk) override;
         DataToFile(DataIn* data);
         ~DataToFile()override;
         void update(size_t id);
-
 };
 

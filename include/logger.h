@@ -3,7 +3,9 @@
 #include <array>
 #include <iostream>
 
-
+/**
+ * @brief Класс для сбора и вывода лог данных о количестве команд, групп сформированных в разных потоках
+ */
 class Logger
 {
     private:
