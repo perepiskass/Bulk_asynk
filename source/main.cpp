@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
     async::receive(h2, "Z\n", 2);
     async::disconnect(h2);
 
-    async::receive(h3, "\nI\nT\nR\nO\nE\nN\n}\n", 15);
+    async::receive(h3, "\nI\nT\nR\nO\nE\nN\n}\n}\n", 17);
     async::disconnect(h3);
 
     std::cout << std::endl;

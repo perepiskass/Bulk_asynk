@@ -151,8 +151,11 @@
 
             while(!bulkQ.empty())
             {
-                Logger::getInstance().set_bulkCount(id);
-                Writer::console(bulkQ.front().first,id);
+                if(!bulkQ.front().first.empty())
+                {
+                    Logger::getInstance().set_bulkCount(id);
+                    Writer::console(bulkQ.front().first,id);
+                }
                 bulkQ.pop();
             }
                 
@@ -186,9 +189,12 @@
             });
                 while (!bulkQ.empty())
                 {
-                    auto start(std::chrono::steady_clock::now());
-                    Logger::getInstance().set_bulkCount(id);
-                    Writer::file(bulkQ.front(),id,start);
+                    if(!bulkQ.front().first.empty())
+                    {
+                        auto start(std::chrono::steady_clock::now());
+                        Logger::getInstance().set_bulkCount(id);
+                        Writer::file(bulkQ.front(),id,start);
+                    }
                     bulkQ.pop();
                 }
         }
