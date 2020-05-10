@@ -1,0 +1,19 @@
+<map id="main" name="main">
+<area shape="rect" id="node2" href="$main_8cpp.html#a863d1f1fc2537b069a8bcca16fcfd350" title="Функция для проверки введенных аргументов программы. " alt="" coords="136,81,219,108"/>
+<area shape="rect" id="node6" href="$namespaceasync.html#a003d1a6899dca20ddcbff67a6abfb491" title="async::connect" alt="" coords="118,309,237,336"/>
+<area shape="rect" id="node9" href="$namespaceasync.html#aa1b54e89e951488a8dd79e720f3d8f8b" title="async::receive" alt="" coords="119,157,235,184"/>
+<area shape="rect" id="node16" href="$namespaceasync.html#a04233bf9bec326f7bcb4e1a9d5b8ee9d" title="async::disconnect" alt="" coords="108,259,247,285"/>
+<area shape="rect" id="node17" href="$namespacelogger.html#ad441174e1c2d29741cebde25d90b28c2" title="logger::printLog" alt="" coords="115,208,239,235"/>
+<area shape="rect" id="node3" href="$version__lib_8h.html#a611014f17df7beb38556969d507c35a8" title="version_major" alt="" coords="319,107,433,133"/>
+<area shape="rect" id="node4" href="$version__lib_8h.html#ad4af1896cb52e820ec682991f84fe4fe" title="version_minor" alt="" coords="319,5,433,32"/>
+<area shape="rect" id="node5" href="$version__lib_8h.html#a3bbf8a2e2598558e5e6ff1dfb1345db8" title="version_patch" alt="" coords="319,56,433,83"/>
+<area shape="rect" id="node7" href="$classLogger.html#afbe890cea4f5034d431905a8578f9f22" title="Logger::getInstance" alt="" coords="937,157,1088,184"/>
+<area shape="rect" id="node8" href="$classLogger.html#ae0689cfb3d7085d73cbae10eb493d389" title="Logger::setCount" alt="" coords="310,309,442,336"/>
+<area shape="rect" id="node10" href="$namespaceasync.html#a2767094c179e2a5769f072daf2fa27b7" title="async::setCommands" alt="" coords="295,157,457,184"/>
+<area shape="rect" id="node11" href="$classDataIn.html#a46b7d0105f3e97597e0512a7e0f91056" title="DataIn::setData" alt="" coords="505,107,629,133"/>
+<area shape="rect" id="node12" href="$classLogger.html#afb488482288f08f750428c410d4c98ad" title="Logger::set_lineCount" alt="" coords="698,157,861,184"/>
+<area shape="rect" id="node13" href="$classLogger.html#af947354159cfea459f988d3e570e46a6" title="Logger::set_commandCount" alt="" coords="677,56,881,83"/>
+<area shape="rect" id="node14" href="$classDataIn.html#a9b5101154d49b88837b4f6d98a86f894" title="DataIn::write" alt="" coords="726,5,833,32"/>
+<area shape="rect" id="node15" href="$classLogger.html#acffd176578c0dcae57569da73158fb99" title="Logger::set_bulkCount" alt="" coords="929,5,1096,32"/>
+<area shape="rect" id="node18" href="$classLogger.html#a2c423ec68d39fde1fabe8c78928e859f" title="Logger::print" alt="" coords="324,259,428,285"/>
+</map>

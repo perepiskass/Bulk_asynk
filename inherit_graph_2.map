@@ -1,0 +1,5 @@
+<map id="Иерархия классов. Графический вид." name="Иерархия классов. Графический вид.">
+<area shape="rect" id="node1" href="$classObserver.html" title="Интерфейс для реализации классов записывающих данные. " alt="" coords="5,31,87,57"/>
+<area shape="rect" id="node2" href="$classDataToConsole.html" title="Класс для вывода полученных данных в консоль. " alt="" coords="135,5,253,32"/>
+<area shape="rect" id="node3" href="$classDataToFile.html" title="Класс для записи полученных данных в файл. " alt="" coords="149,56,239,83"/>
+</map>

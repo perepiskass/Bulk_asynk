@@ -1,0 +1,4 @@
+<map id="Observer" name="Observer">
+<area shape="rect" id="node2" href="$classDataToConsole.html" title="Класс для вывода полученных данных в консоль. " alt="" coords="5,160,160,281"/>
+<area shape="rect" id="node3" href="$classDataToFile.html" title="Класс для записи полученных данных в файл. " alt="" coords="184,160,309,281"/>
+</map>

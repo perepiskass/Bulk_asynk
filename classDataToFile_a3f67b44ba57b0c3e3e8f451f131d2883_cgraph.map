@@ -1,0 +1,6 @@
+<map id="DataToFile::update" name="DataToFile::update">
+<area shape="rect" id="node2" href="$classLogger.html#afbe890cea4f5034d431905a8578f9f22" title="Logger::getInstance" alt="" coords="437,5,588,32"/>
+<area shape="rect" id="node3" href="$classLogger.html#acffd176578c0dcae57569da73158fb99" title="Logger::set_bulkCount" alt="" coords="196,31,363,57"/>
+<area shape="rect" id="node4" href="$classWriter.html#aaa0ea45a2e7b891a4cd8072c823b1ba2" title="Writer::file" alt="" coords="235,81,324,108"/>
+<area shape="rect" id="node5" href="$classLogger.html#af947354159cfea459f988d3e570e46a6" title="Logger::set_commandCount" alt="" coords="411,81,615,108"/>
+</map>

@@ -1,0 +1,9 @@
+<map id="Logger::set_bulkCount" name="Logger::set_bulkCount">
+<area shape="rect" id="node2" href="$classDataIn.html#a9b5101154d49b88837b4f6d98a86f894" title="DataIn::write" alt="" coords="253,5,359,32"/>
+<area shape="rect" id="node7" href="$classDataToConsole.html#a80370d5a685c99d8ffd1b5aeb4c030c6" title="DataToConsole::update" alt="" coords="220,56,392,83"/>
+<area shape="rect" id="node8" href="$classDataToFile.html#a3f67b44ba57b0c3e3e8f451f131d2883" title="DataToFile::update" alt="" coords="235,107,377,133"/>
+<area shape="rect" id="node3" href="$classDataIn.html#a46b7d0105f3e97597e0512a7e0f91056" title="DataIn::setData" alt="" coords="440,5,564,32"/>
+<area shape="rect" id="node4" href="$namespaceasync.html#a2767094c179e2a5769f072daf2fa27b7" title="async::setCommands" alt="" coords="612,5,775,32"/>
+<area shape="rect" id="node5" href="$namespaceasync.html#aa1b54e89e951488a8dd79e720f3d8f8b" title="async::receive" alt="" coords="823,5,939,32"/>
+<area shape="rect" id="node6" href="$main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97" title="main" alt="" coords="987,5,1041,32"/>
+</map>

@@ -1,0 +1,6 @@
+<map id="DataToConsole::update" name="DataToConsole::update">
+<area shape="rect" id="node2" href="$classLogger.html#afbe890cea4f5034d431905a8578f9f22" title="Logger::getInstance" alt="" coords="467,5,617,32"/>
+<area shape="rect" id="node3" href="$classLogger.html#acffd176578c0dcae57569da73158fb99" title="Logger::set_bulkCount" alt="" coords="225,31,392,57"/>
+<area shape="rect" id="node4" href="$classWriter.html#a669b41ca52cac91766fccbd14e03961d" title="Writer::console" alt="" coords="249,81,368,108"/>
+<area shape="rect" id="node5" href="$classLogger.html#af947354159cfea459f988d3e570e46a6" title="Logger::set_commandCount" alt="" coords="440,81,644,108"/>
+</map>

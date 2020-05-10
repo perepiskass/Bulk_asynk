@@ -1,0 +1,195 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.13"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>asynk: Класс Observer</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">asynk
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Создано системой Doxygen 1.8.13 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search",false,'Поиск');
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('',true,false,'search.php','Поиск');
+  $(document).ready(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#pub-methods">Открытые члены</a> &#124;
+<a href="classObserver-members.html">Полный список членов класса</a>  </div>
+  <div class="headertitle">
+<div class="title">Класс Observer<span class="mlabels"><span class="mlabel">abstract</span></span></div>  </div>
+</div><!--header-->
+<div class="contents">
+
+<p>Интерфейс для реализации классов записывающих данные.  
+ <a href="classObserver.html#details">Подробнее...</a></p>
+
+<p><code>#include &lt;<a class="el" href="data_8h_source.html">data.h</a>&gt;</code></p>
+<div class="dynheader">
+Граф наследования:Observer:</div>
+<div class="dyncontent">
+<div class="center"><img src="classObserver__inherit__graph.png" border="0" usemap="#Observer_inherit__map" alt="Inheritance graph"/></div>
+<map name="Observer_inherit__map" id="Observer_inherit__map">
+<area shape="rect" id="node2" href="classDataToConsole.html" title="Класс для вывода полученных данных в консоль. " alt="" coords="5,160,160,281"/>
+<area shape="rect" id="node3" href="classDataToFile.html" title="Класс для записи полученных данных в файл. " alt="" coords="184,160,309,281"/>
+</map>
+</div>
+<div class="dynheader">
+Граф связей класса Observer:</div>
+<div class="dyncontent">
+<div class="center"><img src="classObserver__coll__graph.png" border="0" usemap="#Observer_coll__map" alt="Collaboration graph"/></div>
+<map name="Observer_coll__map" id="Observer_coll__map">
+</map>
+</div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
+Открытые члены</h2></td></tr>
+<tr class="memitem:a19f58696d77c49c546c6639bc7d9a8fa"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classObserver.html#a19f58696d77c49c546c6639bc7d9a8fa">setBulk</a> (const <a class="el" href="parallel__out_8h.html#ae78a61f40abfb3290d752e89c4b65ce5">Bulk</a> &amp;)=0</td></tr>
+<tr class="separator:a19f58696d77c49c546c6639bc7d9a8fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a49036363c8fe76fc8a0a9db8957aa5c4"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classObserver.html#a49036363c8fe76fc8a0a9db8957aa5c4">update</a> (size_t id)=0</td></tr>
+<tr class="separator:a49036363c8fe76fc8a0a9db8957aa5c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a37824643eeaef086de17bba2717d865a"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classObserver.html#a37824643eeaef086de17bba2717d865a">~Observer</a> ()=default</td></tr>
+<tr class="separator:a37824643eeaef086de17bba2717d865a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Подробное описание</h2>
+<div class="textblock"><p>Интерфейс для реализации классов записывающих данные. </p>
+</div><h2 class="groupheader">Конструктор(ы)</h2>
+<a id="a37824643eeaef086de17bba2717d865a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a37824643eeaef086de17bba2717d865a">&#9670;&nbsp;</a></span>~Observer()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual Observer::~Observer </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span><span class="mlabel">default</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Методы</h2>
+<a id="a19f58696d77c49c546c6639bc7d9a8fa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a19f58696d77c49c546c6639bc7d9a8fa">&#9670;&nbsp;</a></span>setBulk()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void Observer::setBulk </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="parallel__out_8h.html#ae78a61f40abfb3290d752e89c4b65ce5">Bulk</a> &amp;&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Замещается в <a class="el" href="classDataToFile.html#a952e881bfa20e744c765ef6e27fa11ce">DataToFile</a> и <a class="el" href="classDataToConsole.html#abfde2d8b1c97149c67636c29dfff438c">DataToConsole</a>.</p>
+
+</div>
+</div>
+<a id="a49036363c8fe76fc8a0a9db8957aa5c4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a49036363c8fe76fc8a0a9db8957aa5c4">&#9670;&nbsp;</a></span>update()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void Observer::update </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Замещается в <a class="el" href="classDataToFile.html#a3f67b44ba57b0c3e3e8f451f131d2883">DataToFile</a> и <a class="el" href="classDataToConsole.html#a80370d5a685c99d8ffd1b5aeb4c030c6">DataToConsole</a>.</p>
+
+</div>
+</div>
+<hr/>Объявления и описания членов класса находятся в файле:<ul>
+<li>include/<a class="el" href="data_8h_source.html">data.h</a></li>
+</ul>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Создано системой &#160;<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/>
+</a> 1.8.13
+</small></address>
+</body>
+</html>

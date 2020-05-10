@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.13"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>asynk: Исходный файл include/parallel_out.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">asynk
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Создано системой Doxygen 1.8.13 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search",false,'Поиск');
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('',true,false,'search.php','Поиск');
+  $(document).ready(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle">
+<div class="title">parallel_out.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="parallel__out_8h.html">См. документацию.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div><div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &lt;mutex&gt;</span></div><div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;iostream&gt;</span></div><div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;sstream&gt;</span></div><div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;fstream&gt;</span></div><div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;vector&gt;</span></div><div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div><div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &lt;ctime&gt;</span></div><div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &lt;chrono&gt;</span></div><div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div><div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="logger_8h.html">logger.h</a>&quot;</span></div><div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div><div class="line"><a name="l00013"></a><span class="lineno"><a class="line" href="parallel__out_8h.html#ae72a1f3da091d9110e2d91bbf243066c">   13</a></span>&#160;<span class="keyword">using</span> <a class="code" href="parallel__out_8h.html#ae72a1f3da091d9110e2d91bbf243066c">Time</a> = std::chrono::seconds;</div><div class="line"><a name="l00014"></a><span class="lineno"><a class="line" href="parallel__out_8h.html#ac8e9892fe3f8e9a02df99f3e2a3b5726">   14</a></span>&#160;<span class="keyword">using</span> <a class="code" href="parallel__out_8h.html#ac8e9892fe3f8e9a02df99f3e2a3b5726">Time_point</a> = std::chrono::_V2::steady_clock::time_point;</div><div class="line"><a name="l00015"></a><span class="lineno"><a class="line" href="parallel__out_8h.html#ae78a61f40abfb3290d752e89c4b65ce5">   15</a></span>&#160;<span class="keyword">using</span> <a class="code" href="parallel__out_8h.html#ae78a61f40abfb3290d752e89c4b65ce5">Bulk</a> = std::pair&lt;std::vector&lt;std::string&gt;,<a class="code" href="parallel__out_8h.html#ae72a1f3da091d9110e2d91bbf243066c">Time</a>&gt;;</div><div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div><div class="line"><a name="l00020"></a><span class="lineno"><a class="line" href="classWriter.html">   20</a></span>&#160;<span class="keyword">class </span><a class="code" href="classWriter.html">Writer</a>:<span class="keyword">public</span> std::stringstream</div><div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;{</div><div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <span class="keyword">private</span>:</div><div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        <span class="keyword">static</span> <span class="keyword">inline</span> std::mutex cout_mutex;</div><div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <span class="keyword">public</span>:</div><div class="line"><a name="l00025"></a><span class="lineno"><a class="line" href="classWriter.html#a669b41ca52cac91766fccbd14e03961d">   25</a></span>&#160;    <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="classWriter.html#a669b41ca52cac91766fccbd14e03961d">console</a>(<span class="keyword">const</span> std::vector&lt;std::string&gt;&amp; bulks, <span class="keywordtype">int</span> <span class="keywordtype">id</span>)</div><div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    {</div><div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        std::lock_guard&lt;std::mutex&gt; lcout {cout_mutex};</div><div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        std::cout &lt;&lt; <span class="stringliteral">&quot;bulk &quot;</span> &lt;&lt; <span class="keywordtype">id</span> &lt;&lt; <span class="stringliteral">&quot;: &quot;</span>;</div><div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        <span class="keywordflow">for</span>(<span class="keyword">auto</span> str = bulks.begin(); str!=bulks.end(); ++str)</div><div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        {</div><div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;            <a class="code" href="classLogger.html#afbe890cea4f5034d431905a8578f9f22">Logger::getInstance</a>().<a class="code" href="classLogger.html#af947354159cfea459f988d3e570e46a6">set_commandCount</a>(<span class="keywordtype">id</span>);</div><div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;            <span class="keywordflow">if</span>(str==bulks.begin()) std::cout &lt;&lt; *str;</div><div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;            <span class="keywordflow">else</span> std::cout &lt;&lt; <span class="stringliteral">&quot;, &quot;</span> &lt;&lt; *str;</div><div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        }</div><div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        std::cout &lt;&lt; std::endl;</div><div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    }</div><div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div><div class="line"><a name="l00038"></a><span class="lineno"><a class="line" href="classWriter.html#aaa0ea45a2e7b891a4cd8072c823b1ba2">   38</a></span>&#160;    <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="classWriter.html#aaa0ea45a2e7b891a4cd8072c823b1ba2">file</a>(<span class="keyword">const</span> <a class="code" href="parallel__out_8h.html#ae78a61f40abfb3290d752e89c4b65ce5">Bulk</a>&amp; bulks, <span class="keywordtype">int</span> <span class="keywordtype">id</span>, <a class="code" href="parallel__out_8h.html#ac8e9892fe3f8e9a02df99f3e2a3b5726">Time_point</a> start)</div><div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    {</div><div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        std::ofstream out;</div><div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        <span class="keyword">auto</span> timeUNIX = bulks.second.count();</div><div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        <span class="keyword">auto</span> end(std::chrono::steady_clock::now());</div><div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        <span class="keyword">using</span> nanoseconds = std::chrono::duration&lt;double,std::ratio&lt;1,1&#39;000&#39;000&#39;000&gt;&gt;;</div><div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        <span class="keyword">auto</span> diff = nanoseconds(end - start).count();</div><div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        std::string path = <span class="stringliteral">&quot;bulk&quot;</span>+ std::to_string(timeUNIX) + <span class="charliteral">&#39;.&#39;</span> + std::to_string(<span class="keywordtype">int</span>(diff)) + <span class="stringliteral">&quot;.log&quot;</span>;</div><div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        out.open(path);</div><div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        <span class="keywordflow">if</span> (out.is_open(),std::ios::app)</div><div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        {</div><div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;            out &lt;&lt; <span class="stringliteral">&quot;bulk &quot;</span> &lt;&lt; <span class="keywordtype">id</span> &lt;&lt; <span class="stringliteral">&quot;: &quot;</span>;</div><div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;            <span class="keywordflow">for</span>(<span class="keyword">auto</span> str = bulks.first.begin(); str!=bulks.first.end(); ++str)</div><div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;            {</div><div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;                <a class="code" href="classLogger.html#afbe890cea4f5034d431905a8578f9f22">Logger::getInstance</a>().<a class="code" href="classLogger.html#af947354159cfea459f988d3e570e46a6">set_commandCount</a>(<span class="keywordtype">id</span>);</div><div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;                <span class="keywordflow">if</span>(str==bulks.first.begin()) out &lt;&lt; *str;</div><div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;                <span class="keywordflow">else</span> out &lt;&lt; <span class="stringliteral">&quot;, &quot;</span> &lt;&lt; *str;</div><div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;            }</div><div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        }</div><div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        out.close();</div><div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    }</div><div class="line"><a name="l00059"></a><span class="lineno"><a class="line" href="classWriter.html#a6f57399b94731301d267ce10a2f52ea3">   59</a></span>&#160;    <a class="code" href="classWriter.html#a6f57399b94731301d267ce10a2f52ea3">~Writer</a>()</div><div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    {</div><div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        std::lock_guard&lt;std::mutex&gt; l {cout_mutex};</div><div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        std::cout &lt;&lt; rdbuf();</div><div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        std::cout.flush();</div><div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    }</div><div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;};</div><div class="ttc" id="classLogger_html_afbe890cea4f5034d431905a8578f9f22"><div class="ttname"><a href="classLogger.html#afbe890cea4f5034d431905a8578f9f22">Logger::getInstance</a></div><div class="ttdeci">static Logger &amp; getInstance()</div><div class="ttdef"><b>Definition:</b> logger.h:17</div></div>
+<div class="ttc" id="classWriter_html"><div class="ttname"><a href="classWriter.html">Writer</a></div><div class="ttdoc">Класс для вывода информации(в файл, в консоль) в параллельной среде. </div><div class="ttdef"><b>Definition:</b> parallel_out.h:20</div></div>
+<div class="ttc" id="classWriter_html_aaa0ea45a2e7b891a4cd8072c823b1ba2"><div class="ttname"><a href="classWriter.html#aaa0ea45a2e7b891a4cd8072c823b1ba2">Writer::file</a></div><div class="ttdeci">static void file(const Bulk &amp;bulks, int id, Time_point start)</div><div class="ttdef"><b>Definition:</b> parallel_out.h:38</div></div>
+<div class="ttc" id="classLogger_html_af947354159cfea459f988d3e570e46a6"><div class="ttname"><a href="classLogger.html#af947354159cfea459f988d3e570e46a6">Logger::set_commandCount</a></div><div class="ttdeci">void set_commandCount(size_t id=0)</div><div class="ttdef"><b>Definition:</b> logger.h:33</div></div>
+<div class="ttc" id="classWriter_html_a669b41ca52cac91766fccbd14e03961d"><div class="ttname"><a href="classWriter.html#a669b41ca52cac91766fccbd14e03961d">Writer::console</a></div><div class="ttdeci">static void console(const std::vector&lt; std::string &gt; &amp;bulks, int id)</div><div class="ttdef"><b>Definition:</b> parallel_out.h:25</div></div>
+<div class="ttc" id="parallel__out_8h_html_ae72a1f3da091d9110e2d91bbf243066c"><div class="ttname"><a href="parallel__out_8h.html#ae72a1f3da091d9110e2d91bbf243066c">Time</a></div><div class="ttdeci">std::chrono::seconds Time</div><div class="ttdef"><b>Definition:</b> parallel_out.h:13</div></div>
+<div class="ttc" id="classWriter_html_a6f57399b94731301d267ce10a2f52ea3"><div class="ttname"><a href="classWriter.html#a6f57399b94731301d267ce10a2f52ea3">Writer::~Writer</a></div><div class="ttdeci">~Writer()</div><div class="ttdef"><b>Definition:</b> parallel_out.h:59</div></div>
+<div class="ttc" id="parallel__out_8h_html_ac8e9892fe3f8e9a02df99f3e2a3b5726"><div class="ttname"><a href="parallel__out_8h.html#ac8e9892fe3f8e9a02df99f3e2a3b5726">Time_point</a></div><div class="ttdeci">std::chrono::_V2::steady_clock::time_point Time_point</div><div class="ttdef"><b>Definition:</b> parallel_out.h:14</div></div>
+<div class="ttc" id="logger_8h_html"><div class="ttname"><a href="logger_8h.html">logger.h</a></div></div>
+<div class="ttc" id="parallel__out_8h_html_ae78a61f40abfb3290d752e89c4b65ce5"><div class="ttname"><a href="parallel__out_8h.html#ae78a61f40abfb3290d752e89c4b65ce5">Bulk</a></div><div class="ttdeci">std::pair&lt; std::vector&lt; std::string &gt;, Time &gt; Bulk</div><div class="ttdef"><b>Definition:</b> parallel_out.h:15</div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Создано системой &#160;<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/>
+</a> 1.8.13
+</small></address>
+</body>
+</html>
