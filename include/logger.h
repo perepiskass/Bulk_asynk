@@ -46,7 +46,7 @@ class Logger
                         << m[0][1]<< "- commands,"
                         << m[0][2]<< "- bulks" << std::endl;
 
-        for (size_t i = 1; i < count;++i)
+        for (size_t i = 1; i <= count;++i)
         {
             std::cout << "Thread # " << i <<": "
                                     << m[i][1]<< "- commands,"
